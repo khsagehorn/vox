@@ -4,80 +4,8 @@
 <body>
 <script src="pixi.min.js"></script>
 <link rel="stylesheet" href="/css/main.css">
-<script>
-
-//Test that Pixi is working
-console.log(PIXI);
-
-//Create the renderer
-var renderer = PIXI.autoDetectRenderer(1000, 600);
-renderer.autoResize = true;
-
-renderer.view.style.position = "absolute";
-renderer.view.style.display = "block";
-renderer.autoResize = true;
-renderer.resize(window.innerWidth, window.innerHeight);
-
-//Add the canvas to the HTML document
-document.body.appendChild(renderer.view);
-
-//Create a container object called the `stage`
-var stage = new PIXI.Container();
-
-//Tell the `renderer` to `render` the `stage`
+<script src="js/main.js"></script>
+<script src="js/audio.js"></script>
 
 
-PIXI.loader
-  .add("images/square_icon.png")
-  .load(setup);
-
-  var sprite;
-
-  function setup() {
-    sprite = new PIXI.Sprite(
-      PIXI.loader.resources["images/square_icon.png"].texture
-    );
-
-  // Position sprite
-    sprite.x = stage.width / 2;
-    // sprite.y = stage.height / 2;
-
-  // Resize sprite
-    sprite.width = 200;
-    sprite.height = 200;
-
-  // Sprite Velocity properties
-  sprite.vx = 0;
-  sprite.vy = 0;
-
-  // Rotate sprite
-    // sprite.rotation = 0.8;
-    // sprite.pivot.set(100, 100);
-
-
-  // add sprite and render canvas
-    stage.addChild(sprite);
-
-    gameLoop();
-  }
-
-  function gameLoop(){
-    requestAnimationFrame(gameLoop);
-
-    // Update sprite velocity
-    sprite.vx = 2;
-    sprite.vy = 2;
-
-    // Apply velocity values to position
-    sprite.x += sprite.vx;
-    sprite.y += sprite.vy;
-    
-    renderer.render(stage);
-  }
-
-
-
-
-
-</script>
 </body>
