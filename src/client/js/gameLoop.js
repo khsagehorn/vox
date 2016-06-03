@@ -1,6 +1,6 @@
 function gameLoop(){
   requestAnimationFrame(gameLoop);
-  // contain(sprite, window);
+  // contain(cube, window);
 
 
   // background movement
@@ -12,31 +12,33 @@ function gameLoop(){
   // Update token velocity
   // token.vx = -4;
 
+  stage.addChild(cube);
+
 
 
   // Apply velocity values to position
-  sprite.x += sprite.vx;
-  sprite.y += sprite.vy;
+  cube.x += cube.vx;
+  cube.y += cube.vy;
   token.x += token.vx;
 
-  //contain sprite in game window
-  contain(sprite, {width: 1000, height: renderer.height})
+  //contain cube in game window
+  contain(cube, {width: 1000, height: renderer.height})
 
 
   // When a token is collected
   var tokenCollect = false;
 
-  if(hitTestRectangle(sprite, token)){
+  if(hitTestRectangle(cube, token)){
     tokenCollect = true;
   }
 
   if(tokenCollect){
-    sprite.alpha = 0.5;
-    sprite.tint = 0x9E4D95;
+    cube.alpha = 0.5;
+    cube.tint = 0x9E4D95;
     token.visible = false;
   } else {
-    sprite.alpha = 1;
-    sprite.tint = 0xffffff;}
+    cube.alpha = 1;
+    cube.tint = 0xffffff;}
 
   renderer.render(stage);
   

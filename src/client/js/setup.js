@@ -13,19 +13,23 @@ renderer.resize(window.innerWidth, window.innerHeight);
 //Add the canvas to the HTML document
 document.body.appendChild(renderer.view);
 
-  //Create a container object called the `stage`
-  var stage = new PIXI.Container();
+//Create a container object called the `stage`
+var stage = new PIXI.Container();
+var u = new SpriteUtilities(PIXI);
+// var g = new GameUtilities(PIXI);
 
 //Tell the `renderer` to `render` the `stage`
 
 // Load image assets and run the SETUP function
 PIXI.loader
+  .add("images/cube1.png")
+  .add("images/pyramid.png")
   .add("images/square_icon.png")
   .add("images/background.png")
   .add("images/foreground.png")
   .load(setup);
 
-  var state, sprite, token, background, foreground, titleScreen;
+  var state, cube, token, background, foreground, titleScreen;
 
 
 function setup() {
@@ -34,13 +38,19 @@ function setup() {
   
   
 
-  // Add the main sprite and tokens
+  // Add the main cube and tokens
   sprite = new PIXI.Sprite(
     PIXI.loader.resources["images/square_icon.png"].texture
   );
-  token = new PIXI.Sprite(
-    PIXI.loader.resources["images/square_icon.png"].texture
-  );
+  // token = new PIXI.Sprite(
+  //   PIXI.loader.resources["images/square_icon.png"].texture
+  // );
+
+  var textures = u.filmstrip("images/cube1.png", 100, 100);
+  cube = u.sprite(textures);
+
+  var textures2 = u.filmstrip("images/pyramid.png", 100, 100);
+  token = u.sprite(textures2);
 
 
   // create the background and foreground
@@ -48,24 +58,28 @@ function setup() {
   foreground = new PIXI.extras.TilingSprite(PIXI.loader.resources["images/foreground.png"].texture);
    
 
-  // Position sprites
+  // Position cubes
   
   console.log(stage.height);
   token.x = 1200;
   token.y = renderer.height/(Math.floor(Math.random() *(6)));
-    // sprite.y = stage.height / 2;
+    // cube.y = stage.height / 2;
 
-  // Resize sprites
-  sprite.width = renderer.height/6;
-  sprite.height = renderer.height/6;
+  // Resize cubes
+  cube.width = renderer.height/4;
+  cube.height = renderer.height/4;
   token.width = renderer.height/8;
   token.height = renderer.height/8;
 
   // Make tokens
   makeToken();
+  // g.wait(1500, makeToken2);
+
+  cube.playAnimation();
+  token.playAnimation();
 
 
-  // Sprite Velocity properties
+  // cube Velocity properties
   
   token.vx = 0;
   token.vy = 0;
@@ -81,12 +95,14 @@ function setup() {
   background.height = renderer.height;
   foreground.height = renderer.height;
   
-  // add and position sprite
-  stage.addChild(sprite);
-  sprite.x = 45;
-  sprite.y = renderer.height / 2;
-  sprite.vx = 0;
-  sprite.vy = 0;
+  // add and position cube
+  stage.addChild(cube);
+  cube.x = 45;
+  cube.y = renderer.height / 2;
+  cube.vx = 0;
+  cube.vy = 0;
+
+  // stage.addChild(cube);
 
 
       //Capture the keyboard arrow keys
@@ -96,45 +112,45 @@ function setup() {
       down = keyboard(40);
   //Left arrow key `press` method
   left.press = function() {
-    //Change the sprite's velocity when the key is pressed
-    sprite.vx = -5;
-    sprite.vy = 0;
+    //Change the cube's velocity when the key is pressed
+    cube.vx = -5;
+    cube.vy = 0;
   };
   //Left arrow key `release` method
   left.release = function() {
   
-  if (!right.isDown && sprite.vy === 0) {
-      sprite.vx = 0;
+  if (!right.isDown && cube.vy === 0) {
+      cube.vx = 0;
     }
   };
   //Up
   up.press = function() {
-    sprite.vy = -5;
-    sprite.vx = 0;
+    cube.vy = -5;
+    cube.vx = 0;
   };
   up.release = function() {
-    if (!down.isDown && sprite.vx === 0) {
-      sprite.vy = 0;
+    if (!down.isDown && cube.vx === 0) {
+      cube.vy = 0;
     }
   };
   //Right
   right.press = function() {
-    sprite.vx = 5;
-    sprite.vy = 0;
+    cube.vx = 5;
+    cube.vy = 0;
   };
   right.release = function() {
-    if (!left.isDown && sprite.vy === 0) {
-      sprite.vx = 0;
+    if (!left.isDown && cube.vy === 0) {
+      cube.vx = 0;
     }
   };
   //Down
   down.press = function() {
-    sprite.vy = 5;
-    sprite.vx = 0;
+    cube.vy = 5;
+    cube.vx = 0;
   };
   down.release = function() {
-    if (!up.isDown && sprite.vx === 0) {
-      sprite.vy = 0;
+    if (!up.isDown && cube.vx === 0) {
+      cube.vy = 0;
     }
   };
 
@@ -149,18 +165,22 @@ function setup() {
 function makeToken(){
   var tokenArr = [];
   setInterval(function(){
-    token = new PIXI.Sprite(
-    PIXI.loader.resources["images/square_icon.png"].texture
-    );
+    // token = new PIXI.Sprite(
+    // PIXI.loader.resources["images/square_icon.png"].texture
+    // );
+    var textures2 = u.filmstrip("images/pyramid.png", 100, 100);
+    token = u.sprite(textures2);
+    stage.addChild(token);
+    token.playAnimation();
+    tokenArr.push(token)
+    
     token.width = renderer.height/8;
     token.height = renderer.height/8;
     token.x = 1200;
     token.y = (renderer.height - token.height)/(Math.floor(Math.random() * 6));
     token.vx = -8;
-    stage.addChild(token);
-    tokenArr.push(token)
-    console.log("mada a token")
-  }, 2000);
+    console.log("made a token")
+  }, 3000);
 }
 
 
@@ -177,3 +197,13 @@ function makeTitleScreen(){
 }
 
 // 
+// function onLoad(loader, resources) {    var cube = new PIXI.extras.MovieClip(getFramesFromcubeSheet(resources.cube1.texture, 50, 50));
+//   cube1.gotoAndPlay(0);    
+//   stage.addChild(upperbody);} 
+// //only works for horizontal cubesheetsfunction 
+// getFramesFromcubeSheet(texture, frameWidth, frameHeight) {    var frames = [];     
+//   for(var i = 0; i < texture.width-frameWidth; i+=frameWidth) {   frames.push(new PIXI.Texture(texture.baseTexture, 
+//     new PIXI.Rectangle(i, 0, frameWidth, frameHeight)));
+//   }     
+//   return frames;
+// }
