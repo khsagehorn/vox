@@ -7,16 +7,33 @@ var audioInput = null,
 var rafId = null;
 var analyserContext = null;
 var recIndex = 0;
+var audioData;
+var freqByteData = [];
+
+
 
 function updateAnalysers(time) {
     var freqByteData = new Uint8Array(analyserNode.frequencyBinCount);
     
     analyserNode.getByteFrequencyData(freqByteData);
 
-    console.log(freqByteData);
+    setTimeout(function(){
 
-    rafId = window.requestAnimationFrame(updateAnalysers);
+        console.log(freqByteData);
+    // showFreq(freqByteData);
+
+
+        rafId = window.requestAnimationFrame(updateAnalysers);
+    }, 1000 / 5);
 }
+
+// function showFreq(freqByteData){
+//     setInterval(function(){
+//         console.log(freqByteData);
+//     }, 1000)
+// }
+
+// showFreq(freqByteData);
 
 function gotStream(stream) {
     inputPoint = audioContext.createGain();
