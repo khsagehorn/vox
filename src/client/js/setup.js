@@ -102,14 +102,14 @@ function setup() {
   cube.vx = 0;
   cube.vy = 0;
 
-  // stage.addChild(cube);
 
 
-      //Capture the keyboard arrow keys
+  //Capture the keyboard arrow keys
   var left = keyboard(37),
       up = keyboard(38),
       right = keyboard(39),
       down = keyboard(40);
+  // logFreq();
   //Left arrow key `press` method
   left.press = function() {
     //Change the cube's velocity when the key is pressed
@@ -195,15 +195,3 @@ function makeTitleScreen(){
   title.y = 250;
   titleScreen.addChild(title);
 }
-
-// 
-// function onLoad(loader, resources) {    var cube = new PIXI.extras.MovieClip(getFramesFromcubeSheet(resources.cube1.texture, 50, 50));
-//   cube1.gotoAndPlay(0);    
-//   stage.addChild(upperbody);} 
-// //only works for horizontal cubesheetsfunction 
-// getFramesFromcubeSheet(texture, frameWidth, frameHeight) {    var frames = [];     
-//   for(var i = 0; i < texture.width-frameWidth; i+=frameWidth) {   frames.push(new PIXI.Texture(texture.baseTexture, 
-//     new PIXI.Rectangle(i, 0, frameWidth, frameHeight)));
-//   }     
-//   return frames;
-// }

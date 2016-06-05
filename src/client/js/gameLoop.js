@@ -14,6 +14,8 @@ function gameLoop(){
 
   stage.addChild(cube);
 
+  logFreq();
+
 
 
   // Apply velocity values to position

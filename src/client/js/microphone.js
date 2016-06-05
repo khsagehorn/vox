@@ -9,6 +9,7 @@ var analyserContext = null;
 var recIndex = 0;
 var audioData;
 var freqByteData = [];
+var frequency = [0,0];
 
 // PITCH STUFF
 var tracks = null;
@@ -19,48 +20,65 @@ var noteStrings = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "
 
 
 
-function updateAnalysers(time) {
+function updateAnalysers() {
     var freqByteData = new Uint8Array(analyserNode.frequencyBinCount);
     analyserNode.getByteFrequencyData(freqByteData);
     
     
-    // pitch detection stuff
-    var cycles = new Array;
+    // PITCH STUFF
+    // var cycles = new Array;
     analyserNode.getFloatTimeDomainData( buf );
     var pitch = autoCorrelate( buf, audioContext.sampleRate );
 
 
 
-
+    // limit framerate
     setTimeout(function(){
 
 
-    // PITCH STUFF
-    // pitch = ac;
-    console.log(Math.round( pitch ) );
-    var note =  noteFromPitch( pitch );
-    // console.log(noteStrings[note%12]);
+        // PITCH STUFF
+        frequency.push((Math.round(pitch)));
+        frequency.shift();
+        // console.log(frequency);
+        // console.log(Math.round( pitch ) );
+        var note =  noteFromPitch( pitch );
+        // console.log(noteStrings[note%12]);
 
-    // showFreq(freqByteData);
         // console.log(freqByteData);
-
+        // logFreq();
 
         rafId = window.requestAnimationFrame(updateAnalysers);
     }, 1000 / 5);
 }
+
+function logFreq(){
+    
+    if (frequency[1] > frequency[0] 
+        && (frequency[1] - frequency[0]) > 100
+        && (!(frequency[1] === -1))){
+        console.log(frequency);
+        console.log("up");
+        return cube.vy = -5;
+    }
+    if (frequency[1] < frequency[0]
+        && (frequency[0] - frequency[1]) > 100
+        && (!(frequency[0] === -1))){
+        console.log(frequency);
+        console.log("down");
+        return cube.vy = 5;
+    }
+    
+
+    // currentFrequency;
+}
+
+
 
 function noteFromPitch( frequency ) {
     var noteNum = 12 * (Math.log( frequency / 440 )/Math.log(2) );
     return Math.round( noteNum ) + 69;
 }
 
-// function showFreq(freqByteData){
-//     setInterval(function(){
-//         console.log(freqByteData);
-//     }, 1000)
-// }
-
-// showFreq(freqByteData);
 
 function gotStream(stream) {
     inputPoint = audioContext.createGain();
@@ -101,9 +119,11 @@ function initAudio() {
                 },
                 "optional": []
             },
-        }, gotStream, function(e) {
+        }, 
+        gotStream, 
+        function(error) {
             alert('Error getting audio');
-            console.log(e);
+            console.log(error);
         });
 }
 
