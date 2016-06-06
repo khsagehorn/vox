@@ -75,7 +75,7 @@ function logFreq(){
         if (cube.y < renderer.height/2) {
             return cube.vy = 10;
         }
-        if (renderer.height/2 + 10 < cube.y < renderer.height/2 - 10){
+        if (cube.y === renderer.height/2){
             return cube.vy = 0;
         }
 

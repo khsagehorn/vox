@@ -54,13 +54,6 @@ function setup() {
   foreground = new PIXI.extras.TilingSprite(PIXI.loader.resources["images/foreground.png"].texture);
    
 
-  // Position cubes
-  
-  console.log(renderer.height);
-  // token.x = 1200;
-  // token.y = renderer.height/(Math.floor(Math.random() *(6)));
-    // cube.y = stage.height / 2;
-
   // Resize cubes
   cube.width = renderer.height/4;
   cube.height = renderer.height/4;
@@ -100,12 +93,12 @@ function setup() {
   cube.vx = 0;
   cube.vy = 0;
 
-  //contain cube in window
-  if (cube.y === renderer.height){
-    // cube.vy = 0;
-  }
+ //Create game over scene
+ gameOver = new PIXI.Container();
+ stage.addChild(gameOver);
+ gameOver.visible = false;
 
-  // contain(cube, stage);
+ //
 
 
 
@@ -115,6 +108,7 @@ function setup() {
       up = keyboard(38),
       right = keyboard(39),
       down = keyboard(40);
+      space = keyboard(32);
   // logFreq();
   //Left arrow key `press` method
   left.press = function() {
@@ -162,7 +156,7 @@ function setup() {
   keyboard(61).press = function(){playGame();
   }
 
-  // makeTitleScreen();
+  makeTitleScreen();
 
 
 
@@ -200,10 +194,17 @@ function makeTitleScreen(){
   titleScreen.visible = true;
   cube.visible = false;
   foreground.visible = false;
+  // token.visible = false;
   // title = new PIXI.
   logo.x = renderer.width/2 - logo.width/2;
   logo.y = renderer.height/2 - logo.height/2;
   titleScreen.addChild(logo);
+
+  space.press = function(){
+  foreground.visible = true;
+  cube.visible = true;
+  logo.visible = false;
+  }
 
 
 }
