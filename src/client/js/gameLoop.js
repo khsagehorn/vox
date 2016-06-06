@@ -14,7 +14,7 @@ function gameLoop(){
 
   // stage.addChild(cube);
 
-  logFreq();
+  // logFreq();
 
 
 
@@ -35,6 +35,7 @@ function gameLoop(){
   }
 
   if(tokenCollect){
+    playSound();
     cube.alpha = 0.5;
     cube.tint = 0x9E4D95;
     stage.removeChild(token)

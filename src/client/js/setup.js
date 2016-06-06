@@ -18,12 +18,12 @@ var stage = new PIXI.Container();
 var u = new SpriteUtilities(PIXI);
 var g = new GameUtilities(PIXI);
 
-var music = new Howl({
-  urls: ['audio/gameDrone.mp3'],
-  autoplay: true,
-  volume: 0.5,
-  loop: true
-});
+// var music = new Howl({
+//   urls: ['audio/gameDrone.mp3'],
+//   autoplay: true,
+//   volume: 0.5,
+//   loop: true
+// });
 
 
 // Load image assets and run the SETUP function
@@ -128,7 +128,7 @@ function setup() {
   //Left arrow key `release` method
   left.release = function() {
   
-  if (!right.isDown && cube.vy === 0) {
+  if (!right.isDown) {
       cube.vx = 0;
     }
   };
@@ -188,7 +188,7 @@ function makeToken(){
     token.width = renderer.height/8;
     token.height = renderer.height/8;
     token.x = renderer.width + 200;
-    token.y = (renderer.height - token.height)/(Math.floor(Math.random() * 5));
+    token.y = (renderer.height - token.height)/(Math.floor(Math.random() * 6));
     token.vx = -8;
     console.log("made a token")
   }, 3000);
