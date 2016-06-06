@@ -54,14 +54,14 @@ function updateAnalysers() {
 function logFreq(){
     
     if (frequency[1] > frequency[0] 
-        && (frequency[1] - frequency[0]) > 10
+        && (frequency[1] - frequency[0]) > 5
         && (!(frequency[1] === -1))){
         // console.log(frequency);
         // console.log("up");
         return cube.vy = -5;
     }
     if (frequency[1] < frequency[0]
-        && (frequency[0] - frequency[1]) > 10
+        && (frequency[0] - frequency[1]) > 5
         && (!(frequency[0] === -1))){
         // console.log(frequency);
         // console.log("down");

@@ -18,6 +18,13 @@ var stage = new PIXI.Container();
 var u = new SpriteUtilities(PIXI);
 var g = new GameUtilities(PIXI);
 
+var music = new Howl({
+  urls: ['audio/gameDrone.mp3'],
+  autoplay: true,
+  volume: 0.5,
+  loop: true
+});
+
 
 // Load image assets and run the SETUP function
 PIXI.loader
@@ -47,6 +54,8 @@ function setup() {
 
   var textures3 = u.filmstrip("images/logo.png", 650, 100);
   logo = u.sprite(textures3);
+
+  
 
 
   // create the background and foreground
@@ -88,7 +97,7 @@ function setup() {
   
   // add and position cube
   stage.addChild(cube);
-  cube.x = renderer.width/25;
+  cube.x = renderer.width/15;
   cube.y = renderer.height / 2;
   cube.vx = 0;
   cube.vy = 0;
@@ -194,8 +203,14 @@ function makeTitleScreen(){
   titleScreen.visible = true;
   cube.visible = false;
   foreground.visible = false;
-  // token.visible = false;
-  // title = new PIXI.
+  
+  // title screen text
+  var message = new PIXI.Text(
+    "press space to start",
+    {font: "24px Futura", fill: "white"});
+  message.x = renderer.width/2 - message.width/2;
+  message.y = renderer.height/2 + logo.height;
+  titleScreen.addChild(message)
   logo.x = renderer.width/2 - logo.width/2;
   logo.y = renderer.height/2 - logo.height/2;
   titleScreen.addChild(logo);
@@ -204,16 +219,9 @@ function makeTitleScreen(){
   foreground.visible = true;
   cube.visible = true;
   logo.visible = false;
+  message.visible = false;
   }
 
-
-}
-
-function playGame(){
-  foreground.visible = true;
-  cube.visible = true;
-  logo.visible = false;
-  makeToken();
 
 }
 
