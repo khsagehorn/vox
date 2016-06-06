@@ -20,8 +20,8 @@ function contain(sprite, container) {
 
   if (sprite.y + sprite.height > container.y) {
   sprite.y = container.height - sprite.height;
-  sprite.vy = 0;
   collision = "down";
   }
+  // console.log(collision);
   return collision;
 }

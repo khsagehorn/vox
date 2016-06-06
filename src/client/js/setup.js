@@ -16,20 +16,21 @@ document.body.appendChild(renderer.view);
 //Create a container object called the `stage`
 var stage = new PIXI.Container();
 var u = new SpriteUtilities(PIXI);
-// var g = new GameUtilities(PIXI);
+var g = new GameUtilities(PIXI);
 
-//Tell the `renderer` to `render` the `stage`
 
 // Load image assets and run the SETUP function
 PIXI.loader
+  .add("images/logo.png")
+  .add("images/background.png")
+  .add("images/foreground.png")
   .add("images/cube1.png")
   .add("images/pyramid.png")
   .add("images/square_icon.png")
-  .add("images/background.png")
-  .add("images/foreground.png")
   .load(setup);
 
   var state, cube, token, background, foreground, titleScreen;
+  var score = 0;
 
 
 function setup() {
@@ -49,8 +50,11 @@ function setup() {
   var textures = u.filmstrip("images/cube1.png", 100, 100);
   cube = u.sprite(textures);
 
-  var textures2 = u.filmstrip("images/pyramid.png", 100, 100);
-  token = u.sprite(textures2);
+  // var textures2 = u.filmstrip("images/pyramid.png", 100, 100);
+  // token = u.sprite(textures2);
+
+  var textures3 = u.filmstrip("images/logo.png", 650, 100);
+  logo = u.sprite(textures3);
 
 
   // create the background and foreground
@@ -60,35 +64,39 @@ function setup() {
 
   // Position cubes
   
-  console.log(stage.height);
-  token.x = 1200;
-  token.y = renderer.height/(Math.floor(Math.random() *(6)));
+  console.log(renderer.height);
+  // token.x = 1200;
+  // token.y = renderer.height/(Math.floor(Math.random() *(6)));
     // cube.y = stage.height / 2;
 
   // Resize cubes
   cube.width = renderer.height/4;
   cube.height = renderer.height/4;
-  token.width = renderer.height/8;
-  token.height = renderer.height/8;
+  // token.width = renderer.height/8;
+  // token.height = renderer.height/8;
+  logo.height = 100;
+  logo.width = 650;
+
+  //set anchor points
+  cube.anchor.x = 0.5;
+  cube.anchor.y = 0.5;
+
 
   // Make tokens
   makeToken();
-  // g.wait(1500, makeToken2);
 
+
+  // animate sprites
   cube.playAnimation();
-  token.playAnimation();
-
-
-  // cube Velocity properties
-  
-  token.vx = 0;
-  token.vy = 0;
-
+  logo.fps = 8;
+  logo.playAnimation();
 
 
   // add and position bacgrounds
   stage.addChild(background);
   stage.addChild(foreground);
+
+  // stage.addChild(logo);
 
   background.width = renderer.width;
   foreground.width = renderer.width;
@@ -101,6 +109,14 @@ function setup() {
   cube.y = renderer.height / 2;
   cube.vx = 0;
   cube.vy = 0;
+
+  //contain cube in window
+  if (cube.y === renderer.height){
+    // cube.vy = 0;
+  }
+
+  // contain(cube, stage);
+
 
 
 
@@ -154,6 +170,8 @@ function setup() {
     }
   };
 
+  // makeTitleScreen();
+
 
 
     gameLoop();
@@ -165,9 +183,7 @@ function setup() {
 function makeToken(){
   var tokenArr = [];
   setInterval(function(){
-    // token = new PIXI.Sprite(
-    // PIXI.loader.resources["images/square_icon.png"].texture
-    // );
+    
     var textures2 = u.filmstrip("images/pyramid.png", 100, 100);
     token = u.sprite(textures2);
     stage.addChild(token);
@@ -176,8 +192,8 @@ function makeToken(){
     
     token.width = renderer.height/8;
     token.height = renderer.height/8;
-    token.x = 1200;
-    token.y = (renderer.height - token.height)/(Math.floor(Math.random() * 6));
+    token.x = renderer.width + 200;
+    token.y = (renderer.height - token.height)/(Math.floor(Math.random() * 5));
     token.vx = -8;
     console.log("made a token")
   }, 3000);
@@ -190,8 +206,11 @@ function makeTitleScreen(){
   titleScreen = new PIXI.Container();
   stage.addChild(titleScreen);
   titleScreen.visible = true;
-  title = new PIXI.Text("Voxal", {font: "100px", fill: "white"});
-  title.x = 150;
-  title.y = 250;
-  titleScreen.addChild(title);
+  // cube.visible = false;
+  foreground.visible = false;
+  // title = new PIXI.Text("Voxal", {font: "100px", fill: "white"});
+  logo.x = renderer.width/2 - logo.width/2;
+  logo.y = renderer.height/2 - logo.height/2;
+  titleScreen.addChild(logo);
 }
+

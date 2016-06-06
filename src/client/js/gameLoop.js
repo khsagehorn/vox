@@ -24,7 +24,7 @@ function gameLoop(){
   token.x += token.vx;
 
   //contain cube in game window
-  contain(cube, {width: 1000, height: renderer.height})
+  // contain(cube, background);
 
 
   // When a token is collected
@@ -37,7 +37,9 @@ function gameLoop(){
   if(tokenCollect){
     cube.alpha = 0.5;
     cube.tint = 0x9E4D95;
-    token.visible = false;
+    stage.removeChild(token)
+    score += 1;
+    console.log(score);
   } else {
     cube.alpha = 1;
     cube.tint = 0xffffff;}

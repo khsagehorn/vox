@@ -39,7 +39,7 @@ function updateAnalysers() {
         // PITCH STUFF
         frequency.push((Math.round(pitch)));
         frequency.shift();
-        // console.log(frequency);
+        console.log(frequency);
         // console.log(Math.round( pitch ) );
         var note =  noteFromPitch( pitch );
         // console.log(noteStrings[note%12]);
@@ -54,22 +54,34 @@ function updateAnalysers() {
 function logFreq(){
     
     if (frequency[1] > frequency[0] 
-        && (frequency[1] - frequency[0]) > 100
+        && (frequency[1] - frequency[0]) > 10
         && (!(frequency[1] === -1))){
-        console.log(frequency);
-        console.log("up");
+        // console.log(frequency);
+        // console.log("up");
         return cube.vy = -5;
     }
     if (frequency[1] < frequency[0]
-        && (frequency[0] - frequency[1]) > 100
+        && (frequency[0] - frequency[1]) > 10
         && (!(frequency[0] === -1))){
-        console.log(frequency);
-        console.log("down");
+        // console.log(frequency);
+        // console.log("down");
         return cube.vy = 5;
     }
-    
+    if (frequency[1] === -1
+        && frequency[0] === -1) {
+        if (cube.y > renderer.height/2) {
+            return cube.vy = -10;
+        }
+        if (cube.y < renderer.height/2) {
+            return cube.vy = 10;
+        }
+        if (renderer.height/2 + 10 < cube.y < renderer.height/2 - 10){
+            return cube.vy = 0;
+        }
 
-    // currentFrequency;
+        
+    }
+    // return cube.vy = 0;
 }
 
 
@@ -161,15 +173,6 @@ function autoCorrelate( buf, sampleRate ) {
         best_offset = offset;
       }
     } else if (foundGoodCorrelation) {
-      // short-circuit - we found a good correlation, then a bad one, so we'd just be seeing copies from here.
-      // Now we need to tweak the offset - by interpolating between the values to the left and right of the
-      // best offset, and shifting it a bit.  This is complex, and HACKY in this code (happy to take PRs!) -
-      // we need to do a curve fit on correlations[] around best_offset in order to better determine precise
-      // (anti-aliased) offset.
-
-      // we know best_offset >=1, 
-      // since foundGoodCorrelation cannot go to true until the second pass (offset=1), and 
-      // we can't drop into this clause until the following pass (else if).
       var shift = (correlations[best_offset+1] - correlations[best_offset-1])/correlations[best_offset];  
       return sampleRate/(best_offset+(8*shift));
     }
@@ -180,7 +183,6 @@ function autoCorrelate( buf, sampleRate ) {
     return sampleRate/best_offset;
   }
   return -1;
-//  var best_frequency = sampleRate/best_offset;
 }
 
 window.addEventListener('load', initAudio);
