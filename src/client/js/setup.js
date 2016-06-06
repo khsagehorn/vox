@@ -36,22 +36,14 @@ PIXI.loader
 function setup() {
   var height = 600;
 
-  
-  
 
   // Add the main cube and tokens
   sprite = new PIXI.Sprite(
     PIXI.loader.resources["images/square_icon.png"].texture
   );
-  // token = new PIXI.Sprite(
-  //   PIXI.loader.resources["images/square_icon.png"].texture
-  // );
 
   var textures = u.filmstrip("images/cube1.png", 100, 100);
   cube = u.sprite(textures);
-
-  // var textures2 = u.filmstrip("images/pyramid.png", 100, 100);
-  // token = u.sprite(textures2);
 
   var textures3 = u.filmstrip("images/logo.png", 650, 100);
   logo = u.sprite(textures3);
@@ -72,10 +64,8 @@ function setup() {
   // Resize cubes
   cube.width = renderer.height/4;
   cube.height = renderer.height/4;
-  // token.width = renderer.height/8;
-  // token.height = renderer.height/8;
-  logo.height = 100;
-  logo.width = 650;
+  logo.width = renderer.width/2;
+  logo.height = logo.width/6.5;
 
   //set anchor points
   cube.anchor.x = 0.5;
@@ -105,7 +95,7 @@ function setup() {
   
   // add and position cube
   stage.addChild(cube);
-  cube.x = 45;
+  cube.x = renderer.width/25;
   cube.y = renderer.height / 2;
   cube.vx = 0;
   cube.vy = 0;
@@ -169,6 +159,8 @@ function setup() {
       cube.vy = 0;
     }
   };
+  keyboard(61).press = function(){playGame();
+  }
 
   // makeTitleScreen();
 
@@ -206,11 +198,21 @@ function makeTitleScreen(){
   titleScreen = new PIXI.Container();
   stage.addChild(titleScreen);
   titleScreen.visible = true;
-  // cube.visible = false;
+  cube.visible = false;
   foreground.visible = false;
-  // title = new PIXI.Text("Voxal", {font: "100px", fill: "white"});
+  // title = new PIXI.
   logo.x = renderer.width/2 - logo.width/2;
   logo.y = renderer.height/2 - logo.height/2;
   titleScreen.addChild(logo);
+
+
+}
+
+function playGame(){
+  foreground.visible = true;
+  cube.visible = true;
+  logo.visible = false;
+  makeToken();
+
 }
 

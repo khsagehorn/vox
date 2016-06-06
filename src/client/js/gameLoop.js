@@ -12,7 +12,7 @@ function gameLoop(){
   // Update token velocity
   // token.vx = -4;
 
-  stage.addChild(cube);
+  // stage.addChild(cube);
 
   logFreq();
 
