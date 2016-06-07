@@ -1,6 +1,5 @@
 function gameLoop(){
   requestAnimationFrame(gameLoop);
-  // contain(cube, window);
 
 
   // background movement
@@ -9,12 +8,8 @@ function gameLoop(){
   foreground.vx = -5
   foreground.tilePosition.x += foreground.vx;
 
-  // Update token velocity
-  // token.vx = -4;
 
-  // stage.addChild(cube);
-
-  // logFreq();
+  logFreq();
 
 
 
@@ -30,20 +25,22 @@ function gameLoop(){
   // When a token is collected
   var tokenCollect = false;
 
-  if(hitTestRectangle(cube, token)){
+
+  if(b.hitTestPoint({x: token.x, y: token.y}, cube)){
     tokenCollect = true;
   }
 
   if(tokenCollect){
+    stage.removeChild(token);
     playSound();
+    u.shake
     cube.alpha = 0.5;
     cube.tint = 0x9E4D95;
-    stage.removeChild(token)
     score += 1;
-    console.log(score);
   } else {
     cube.alpha = 1;
     cube.tint = 0xffffff;}
+
 
   renderer.render(stage);
   

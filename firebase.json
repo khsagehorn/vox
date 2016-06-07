@@ -1,6 +1,6 @@
 {
   "firebase": "vocol",
-  "public": "src/client/",
+  "public": "src/client",
   "ignore": [
     "firebase.json",
     "**/.*",

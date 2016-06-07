@@ -2,13 +2,13 @@
 console.log(PIXI);
 
 //Create the renderer
-var renderer = PIXI.autoDetectRenderer(1000, 600);
-renderer.autoResize = true;
+var renderer = PIXI.autoDetectRenderer(1000, 675);
+// renderer.autoResize = true;
 
 renderer.view.style.position = "absolute";
 renderer.view.style.display = "block";
-renderer.autoResize = true;
-renderer.resize(window.innerWidth, window.innerHeight);
+// renderer.autoResize = true;
+// renderer.resize(window.innerWidth, window.innerHeight);
 
 //Add the canvas to the HTML document
 document.body.appendChild(renderer.view);
@@ -17,16 +17,11 @@ document.body.appendChild(renderer.view);
 var stage = new PIXI.Container();
 var u = new SpriteUtilities(PIXI);
 var g = new GameUtilities(PIXI);
-
-// var music = new Howl({
-//   urls: ['audio/gameDrone.mp3'],
-//   autoplay: true,
-//   volume: 0.5,
-//   loop: true
-// });
+var b = new Bump(PIXI);
 
 
-// Load image assets and run the SETUP function
+
+// Load image assets and run the setup function
 PIXI.loader
   .add("images/logo.png")
   .add("images/background.png")
@@ -41,14 +36,9 @@ PIXI.loader
 
 
 function setup() {
-  var height = 600;
 
 
-  // Add the main cube and tokens
-  sprite = new PIXI.Sprite(
-    PIXI.loader.resources["images/square_icon.png"].texture
-  );
-
+  // Build sprite animations
   var textures = u.filmstrip("images/cube1.png", 100, 100);
   cube = u.sprite(textures);
 
@@ -64,8 +54,8 @@ function setup() {
    
 
   // Resize cubes
-  cube.width = renderer.height/4;
-  cube.height = renderer.height/4;
+  cube.width = renderer.height/5;
+  cube.height = renderer.height/5;
   logo.width = renderer.width/2;
   logo.height = logo.width/6.5;
 
@@ -96,11 +86,11 @@ function setup() {
   foreground.height = renderer.height;
   
   // add and position cube
-  stage.addChild(cube);
-  cube.x = renderer.width/15;
-  cube.y = renderer.height / 2;
-  cube.vx = 0;
-  cube.vy = 0;
+  // stage.addChild(cube);
+  // cube.x = renderer.width/15;
+  // cube.y = renderer.height / 2;
+  // cube.vx = 0;
+  // cube.vy = 0;
 
  //Create game over scene
  gameOver = new PIXI.Container();
@@ -118,7 +108,7 @@ function setup() {
       right = keyboard(39),
       down = keyboard(40);
       space = keyboard(32);
-  // logFreq();
+
   //Left arrow key `press` method
   left.press = function() {
     //Change the cube's velocity when the key is pressed
@@ -176,7 +166,7 @@ function setup() {
 
 
 function makeToken(){
-  var tokenArr = [];
+  var tokenArr = [0,100,200,300,400,500];
   setInterval(function(){
     
     var textures2 = u.filmstrip("images/pyramid.png", 100, 100);
@@ -185,15 +175,14 @@ function makeToken(){
     token.playAnimation();
     tokenArr.push(token)
     
-    token.width = renderer.height/8;
-    token.height = renderer.height/8;
-    token.x = renderer.width + 200;
-    token.y = (renderer.height - token.height)/(Math.floor(Math.random() * 6));
+    token.width = 75;
+    token.height = 75;
+    token.x = renderer.width;
+    token.y = tokenArr[((Math.floor(Math.random() * 7)))];
     token.vx = -8;
-    console.log("made a token")
-  }, 3000);
+    console.log(token.y);
+  }, 2400);
 }
-
 
 
 function makeTitleScreen(){
@@ -220,6 +209,11 @@ function makeTitleScreen(){
   cube.visible = true;
   logo.visible = false;
   message.visible = false;
+  stage.addChild(cube);
+  cube.x = renderer.width/15;
+  cube.y = renderer.height / 2;
+  cube.vx = 0;
+  cube.vy = 0;
   }
 
 
