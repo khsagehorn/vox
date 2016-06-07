@@ -6,7 +6,9 @@ var renderer = PIXI.autoDetectRenderer(1000, 675);
 // renderer.autoResize = true;
 
 renderer.view.style.position = "absolute";
-renderer.view.style.display = "block";
+// renderer.view.style.display = "block";
+renderer.view.style.left = '10%';
+// renderer.view.style.top = '50%';
 // renderer.autoResize = true;
 // renderer.resize(window.innerWidth, window.innerHeight);
 
