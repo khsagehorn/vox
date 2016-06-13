@@ -8,7 +8,7 @@ function gameLoop(){
   foreground.vx = -5
   foreground.tilePosition.x += foreground.vx;
 
-
+  // run pitch detection function
   logFreq();
 
 
@@ -18,8 +18,6 @@ function gameLoop(){
   cube.y += cube.vy;
   token.x += token.vx;
 
-  //contain cube in game window
-  // contain(cube, background);
 
 
   // When a token is collected
@@ -31,9 +29,11 @@ function gameLoop(){
   }
 
   if(tokenCollect){
+    // remove the token
     stage.removeChild(token);
+    // play sound
     playSound();
-    u.shake
+    // change color of cube
     cube.alpha = 0.5;
     cube.tint = 0x9E4D95;
     score += 1;

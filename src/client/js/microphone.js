@@ -1,13 +1,12 @@
+// access microphone from browser window
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
 var audioContext = new AudioContext();
-var audioInput = null, 
-    realAudioInput = null,
-    inputPoint = null;
+var audioInput = null;
+var realAudioInput = null;
+var inputPoint = null;
 var rafId = null;
 var analyserContext = null;
-var recIndex = 0;
-var audioData;
 var freqByteData = [];
 var frequency = [0,0];
 
@@ -16,7 +15,7 @@ var tracks = null;
 var buflen = 1024;
 var buf = new Float32Array( buflen );
 var MIN_SAMPLES = 0;
-var noteStrings = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+// var noteStrings = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 
 
@@ -34,12 +33,10 @@ function updateAnalysers() {
 
     // limit framerate
     setTimeout(function(){
-
-
         // PITCH STUFF
         frequency.push((Math.round(pitch)));
         frequency.shift();
-        console.log(frequency);
+        // console.log(frequency);
         // console.log(Math.round( pitch ) );
         var note =  noteFromPitch( pitch );
         // console.log(noteStrings[note%12]);
@@ -56,15 +53,11 @@ function logFreq(){
     if (frequency[1] > frequency[0] 
         && (frequency[1] - frequency[0]) > 5
         && (!(frequency[1] === -1))){
-        // console.log(frequency);
-        // console.log("up");
         return cube.vy = -5;
     }
     if (frequency[1] < frequency[0]
         && (frequency[0] - frequency[1]) > 5
         && (!(frequency[0] === -1))){
-        // console.log(frequency);
-        // console.log("down");
         return cube.vy = 5;
     }
     if (frequency[1] === -1
@@ -81,18 +74,17 @@ function logFreq(){
 
         
     }
-    // return cube.vy = 0;
 }
 
 
 
-function noteFromPitch( frequency ) {
+function noteFromPitch( frequency ){
     var noteNum = 12 * (Math.log( frequency / 440 )/Math.log(2) );
     return Math.round( noteNum ) + 69;
 }
 
 
-function gotStream(stream) {
+function getStream(stream){
     inputPoint = audioContext.createGain();
 
     audioInput = audioContext.createMediaStreamSource(stream);
@@ -132,7 +124,7 @@ function initAudio() {
                 "optional": []
             },
         }, 
-        gotStream, 
+        getStream, 
         function(error) {
             alert('Error getting audio');
             console.log(error);
@@ -179,7 +171,6 @@ function autoCorrelate( buf, sampleRate ) {
     lastCorrelation = correlation;
   }
   if (best_correlation > 0.01) {
-    // console.log("f = " + sampleRate/best_offset + "Hz (rms: " + rms + " confidence: " + best_correlation + ")")
     return sampleRate/best_offset;
   }
   return -1;

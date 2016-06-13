@@ -3,14 +3,12 @@ console.log(PIXI);
 
 //Create the renderer
 var renderer = PIXI.autoDetectRenderer(1000, 675);
-// renderer.autoResize = true;
+
 
 renderer.view.style.position = "absolute";
-// renderer.view.style.display = "block";
+
 renderer.view.style.left = '10%';
-// renderer.view.style.top = '50%';
-// renderer.autoResize = true;
-// renderer.resize(window.innerWidth, window.innerHeight);
+
 
 //Add the canvas to the HTML document
 document.body.appendChild(renderer.view);
@@ -18,7 +16,6 @@ document.body.appendChild(renderer.view);
 //Create a container object called the `stage`
 var stage = new PIXI.Container();
 var u = new SpriteUtilities(PIXI);
-var g = new GameUtilities(PIXI);
 var b = new Bump(PIXI);
 
 
@@ -87,20 +84,12 @@ function setup() {
   background.height = renderer.height;
   foreground.height = renderer.height;
   
-  // add and position cube
-  // stage.addChild(cube);
-  // cube.x = renderer.width/15;
-  // cube.y = renderer.height / 2;
-  // cube.vx = 0;
-  // cube.vy = 0;
+
 
  //Create game over scene
  gameOver = new PIXI.Container();
  stage.addChild(gameOver);
  gameOver.visible = false;
-
- //
-
 
 
 
