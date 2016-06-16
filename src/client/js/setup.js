@@ -1,14 +1,9 @@
-//Test that Pixi is working
-console.log(PIXI);
-
 //Create the renderer
 var renderer = PIXI.autoDetectRenderer(1000, 675);
-
 
 renderer.view.style.position = "absolute";
 
 renderer.view.style.left = '10%';
-
 
 //Add the canvas to the HTML document
 document.body.appendChild(renderer.view);
@@ -16,9 +11,7 @@ document.body.appendChild(renderer.view);
 //Create a container object called the `stage`
 var stage = new PIXI.Container();
 var u = new SpriteUtilities(PIXI);
-var b = new Bump(PIXI);
-
-
+var c = new Collision(PIXI);
 
 // Load image assets and run the setup function
 PIXI.loader
@@ -27,15 +20,11 @@ PIXI.loader
   .add("images/foreground.png")
   .add("images/cube1.png")
   .add("images/pyramid.png")
-  .add("images/square_icon.png")
   .load(setup);
 
-  var state, cube, token, background, foreground, titleScreen;
-  var score = 0;
-
+  var state, cube, token, message, background, foreground, titleScreen;
 
 function setup() {
-
 
   // Build sprite animations
   var textures = u.filmstrip("images/cube1.png", 100, 100);
@@ -43,9 +32,6 @@ function setup() {
 
   var textures3 = u.filmstrip("images/logo.png", 650, 100);
   logo = u.sprite(textures3);
-
-  
-
 
   // create the background and foreground
   background = new PIXI.extras.TilingSprite(PIXI.loader.resources["images/background.png"].texture);
@@ -62,102 +48,34 @@ function setup() {
   cube.anchor.x = 0.5;
   cube.anchor.y = 0.5;
 
-
   // Make tokens
   makeToken();
-
 
   // animate sprites
   cube.playAnimation();
   logo.fps = 8;
   logo.playAnimation();
 
-
   // add and position bacgrounds
   stage.addChild(background);
   stage.addChild(foreground);
-
-  // stage.addChild(logo);
 
   background.width = renderer.width;
   foreground.width = renderer.width;
   background.height = renderer.height;
   foreground.height = renderer.height;
-  
 
-
- //Create game over scene
- gameOver = new PIXI.Container();
- stage.addChild(gameOver);
- gameOver.visible = false;
-
-
-
-  //Capture the keyboard arrow keys
-  var left = keyboard(37),
-      up = keyboard(38),
-      right = keyboard(39),
-      down = keyboard(40);
-      space = keyboard(32);
-
-  //Left arrow key `press` method
-  left.press = function() {
-    //Change the cube's velocity when the key is pressed
-    cube.vx = -5;
-    cube.vy = 0;
-  };
-  //Left arrow key `release` method
-  left.release = function() {
-  
-  if (!right.isDown) {
-      cube.vx = 0;
-    }
-  };
-  //Up
-  up.press = function() {
-    cube.vy = -5;
-    cube.vx = 0;
-  };
-  up.release = function() {
-    if (!down.isDown && cube.vx === 0) {
-      cube.vy = 0;
-    }
-  };
-  //Right
-  right.press = function() {
-    cube.vx = 5;
-    cube.vy = 0;
-  };
-  right.release = function() {
-    if (!left.isDown && cube.vy === 0) {
-      cube.vx = 0;
-    }
-  };
-  //Down
-  down.press = function() {
-    cube.vy = 5;
-    cube.vx = 0;
-  };
-  down.release = function() {
-    if (!up.isDown && cube.vx === 0) {
-      cube.vy = 0;
-    }
-  };
-  keyboard(61).press = function(){playGame();
-  }
+  keyCapture();
 
   makeTitleScreen();
 
-
-
-    gameLoop();
+  gameLoop();
 }
-
-
-
 
 function makeToken(){
   var tokenArr = [0,100,200,300,400,500];
+
+  // create a token on interval
   setInterval(function(){
     
     var textures2 = u.filmstrip("images/pyramid.png", 100, 100);
@@ -171,10 +89,8 @@ function makeToken(){
     token.x = renderer.width;
     token.y = tokenArr[((Math.floor(Math.random() * 7)))];
     token.vx = -8;
-    console.log(token.y);
   }, 2400);
 }
-
 
 function makeTitleScreen(){
   // Create title screen
@@ -185,7 +101,7 @@ function makeTitleScreen(){
   foreground.visible = false;
   
   // title screen text
-  var message = new PIXI.Text(
+  message = new PIXI.Text(
     "press space to start",
     {font: "24px Futura", fill: "white"});
   message.x = renderer.width/2 - message.width/2;
@@ -195,18 +111,15 @@ function makeTitleScreen(){
   logo.y = renderer.height/2 - logo.height/2;
   titleScreen.addChild(logo);
 
-  space.press = function(){
-  foreground.visible = true;
-  cube.visible = true;
-  logo.visible = false;
-  message.visible = false;
-  stage.addChild(cube);
-  cube.x = renderer.width/15;
-  cube.y = renderer.height / 2;
-  cube.vx = 0;
-  cube.vy = 0;
+  space.press = function (){
+    foreground.visible = true;
+    cube.visible = true;
+    logo.visible = false;
+    message.visible = false;
+    stage.addChild(cube);
+    cube.x = renderer.width/15;
+    cube.y = renderer.height / 2;
+    cube.vx = 0;
+    cube.vy = 0;
   }
-
-
 }
-

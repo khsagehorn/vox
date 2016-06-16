@@ -15,7 +15,7 @@ var tracks = null;
 var buflen = 1024;
 var buf = new Float32Array( buflen );
 var MIN_SAMPLES = 0;
-// var noteStrings = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+// var notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 
 
 
@@ -39,16 +39,13 @@ function updateAnalysers() {
         // console.log(frequency);
         // console.log(Math.round( pitch ) );
         var note =  noteFromPitch( pitch );
-        // console.log(noteStrings[note%12]);
-
-        // console.log(freqByteData);
-        // logFreq();
+        // console.log(notes[note%12]);
 
         rafId = window.requestAnimationFrame(updateAnalysers);
     }, 1000 / 5);
 }
 
-function logFreq(){
+function movementByFrequency(){
     
     if (frequency[1] > frequency[0] 
         && (frequency[1] - frequency[0]) > 5
@@ -125,11 +122,14 @@ function initAudio() {
             },
         }, 
         getStream, 
-        function(error) {
-            alert('Error getting audio');
-            console.log(error);
-        });
+        error);
 }
+
+function error() {
+    alert('Error getting audio');
+}
+
+
 
 // PITCH STUFF
 function autoCorrelate( buf, sampleRate ) {

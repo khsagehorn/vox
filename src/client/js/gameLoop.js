@@ -1,7 +1,6 @@
 function gameLoop(){
   requestAnimationFrame(gameLoop);
 
-
   // background movement
   background.vx = -3 
   background.tilePosition.x += background.vx;
@@ -9,22 +8,18 @@ function gameLoop(){
   foreground.tilePosition.x += foreground.vx;
 
   // run pitch detection function
-  logFreq();
-
-
+  movementByFrequency();
 
   // Apply velocity values to position
   cube.x += cube.vx;
   cube.y += cube.vy;
   token.x += token.vx;
 
-
-
   // When a token is collected
   var tokenCollect = false;
 
 
-  if(b.hitTestPoint({x: token.x, y: token.y}, cube)){
+  if(c.hitTestPoint({x: token.x, y: token.y}, cube)){
     tokenCollect = true;
   }
 
@@ -36,7 +31,7 @@ function gameLoop(){
     // change color of cube
     cube.alpha = 0.5;
     cube.tint = 0x9E4D95;
-    score += 1;
+    // score += 1;
   } else {
     cube.alpha = 1;
     cube.tint = 0xffffff;}

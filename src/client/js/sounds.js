@@ -21,8 +21,5 @@ var sounds = new Howl({
 function playSound(){
   var rand = Math.floor(Math.random() * (6 - 1 + 1)) + 1;
   
-
-
-  console.log('pitch' + rand ); 
   sounds.play('pitch' + rand );
 };
